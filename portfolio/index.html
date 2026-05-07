@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gautam Kumar — Full-Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06060a;--bg2:#0d0d14;--bg3:#12121c;--surface:#181824;--s2:#1e1e2e;
+  --border:rgba(255,255,255,0.06);--bh:rgba(255,255,255,0.13);
+  --text:#e8e6f0;--muted:#7a788e;--dim:#4a4860;
+  --teal:#00d4aa;--teal2:rgba(0,212,170,0.1);--teal3:rgba(0,212,170,0.04);
+  --gold:#f0a500;--gold2:rgba(240,165,0,0.1);
+  --red:#ff5252;--red2:rgba(255,82,82,0.1);
+  --easy:#22c55e;--med:#f59e0b;--hard:#ef4444;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cursor{position:fixed;width:10px;height:10px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s;mix-blend-mode:screen}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(0,212,170,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+
+/* GRID BG */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0}
+.o1{width:520px;height:520px;background:rgba(0,212,170,0.045);top:-160px;right:-120px;animation:d1 13s ease-in-out infinite}
+.o2{width:380px;height:380px;background:rgba(240,165,0,0.035);bottom:8%;left:-100px;animation:d2 16s ease-in-out infinite}
+.o3{width:280px;height:280px;background:rgba(255,82,82,0.03);bottom:0;right:8%;animation:d1 11s ease-in-out infinite reverse}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(18px,-28px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-18px,18px)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);background:rgba(6,6,10,0.75);border-bottom:1px solid var(--border)}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-0.5px}
+.nav-logo em{color:var(--teal);font-style:normal}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;color:var(--muted);text-decoration:none;padding:7px 14px;border-radius:8px;transition:color .2s,background .2s}
+.nav-links a:hover{color:var(--text);background:var(--surface)}
+.nav-links a.active{color:var(--teal)}
+
+/* WRAP */
+.w{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 32px}
+
+/* HERO */
+.hero{padding:140px 0 72px;display:grid;grid-template-columns:1fr auto;gap:56px;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:22px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--teal)}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(50px,6.5vw,86px);font-weight:800;line-height:.95;letter-spacing:-3px;color:var(--text);margin-bottom:26px}
+.hero h1 .ct{color:var(--teal)}
+.hero h1 .dim{display:block;color:var(--dim);font-weight:400;font-size:.58em;letter-spacing:-1px;margin-top:10px}
+.hero-bio{font-size:15px;line-height:1.78;color:var(--muted);max-width:490px;margin-bottom:34px}
+.hero-bio strong{color:var(--text);font-weight:500}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn-t{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:var(--teal);color:#06060a;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;transition:all .2s}
+.btn-t:hover{background:#00f0c3;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,212,170,.22)}
+.btn-o{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;transition:all .2s}
+.btn-o:hover{border-color:var(--bh);background:var(--surface);transform:translateY(-2px)}
+
+/* AVATAR CARD */
+.hcard{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;width:210px;text-align:center;flex-shrink:0;position:relative;overflow:hidden}
+.hcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--gold))}
+.av-ring{width:78px;height:78px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--gold));padding:2px;margin:0 auto 14px}
+.av-in{width:100%;height:100%;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--teal)}
+.c-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px}
+.c-role{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+.c-status{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.2);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal)}
+.pdot{width:6px;height:6px;background:var(--teal);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+
+/* STATS BAR */
+.sbar{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--bg2);margin-bottom:80px}
+.sc{padding:22px 18px;border-right:1px solid var(--border);text-align:center;transition:background .2s;cursor:default}
+.sc:last-child{border-right:none}
+.sc:hover{background:var(--surface)}
+.sn{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--text);display:block;line-height:1}
+.sn.t{color:var(--teal)}.sn.g{color:var(--gold)}
+.sl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+
+/* SECTION */
+section{padding:80px 0}
+.sh{margin-bottom:46px}
+.slbl{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.slbl::after{content:'';flex:0 0 36px;height:1px;background:var(--teal)}
+.stitle{font-family:'Syne',sans-serif;font-size:38px;font-weight:800;letter-spacing:-1.5px;color:var(--text)}
+.stitle span{color:var(--dim);font-weight:400}
+.divider{border:none;border-top:1px solid var(--border)}
+
+/* EXPERIENCE */
+.exp{display:flex;gap:16px;padding:22px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;transition:all .25s;position:relative;overflow:hidden}
+.exp::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);transform:scaleY(0);transform-origin:top;transition:transform .3s;border-radius:0 2px 2px 0}
+.exp:hover{border-color:rgba(0,212,170,.18);transform:translateX(6px)}
+.exp:hover::before{transform:scaleY(1)}
+.exp-ico{width:44px;height:44px;flex-shrink:0;border-radius:10px;background:var(--teal2);display:flex;align-items:center;justify-content:center;font-size:20px}
+.exp-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
+.exp-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap}
+.exp-pts{list-style:none;display:flex;flex-direction:column;gap:6px}
+.exp-pts li{font-size:13px;color:var(--muted);display:flex;gap:10px;line-height:1.55}
+.exp-pts li::before{content:'▸';color:var(--teal);flex-shrink:0;font-size:10px;margin-top:3px}
+
+/* PROJECTS */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pcard{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:28px;position:relative;overflow:hidden;transition:all .3s;cursor:default}
+.pcard::after{content:'';position:absolute;inset:0;background:radial-gradient(480px at var(--px,50%) var(--py,50%),rgba(0,212,170,0.055),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none}
+.pcard:hover{border-color:rgba(0,212,170,.2);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.pcard:hover::after{opacity:1}
+.pcard.feat{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.pcard.gold-card:hover{border-color:rgba(240,165,0,.2)}
+.pcard.gold-card::after{background:radial-gradient(480px at var(--px,50%) var(--py,50%),rgba(240,165,0,0.05),transparent 70%)}
+.pstripe{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),transparent)}
+.pstripe.g{background:linear-gradient(90deg,var(--gold),transparent)}
+.pemoji{font-size:30px;margin-bottom:14px;display:block}
+.ptitle{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--text);margin-bottom:8px}
+.psub{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px}
+.pfeat{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.pfeat li{font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+.pfeat li::before{content:'◆';color:var(--teal);font-size:7px;flex-shrink:0;margin-top:5px}
+.pfeat.g li::before{color:var(--gold)}
+.metrics{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.mpill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.mpill.t{background:var(--teal2);color:var(--teal);border:1px solid rgba(0,212,170,.2)}
+.mpill.g{background:var(--gold2);color:var(--gold);border:1px solid rgba(240,165,0,.2)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+.tag.t{background:var(--teal2);border-color:rgba(0,212,170,.2);color:var(--teal)}
+.tag.g{background:var(--gold2);border-color:rgba(240,165,0,.2);color:var(--gold)}
+.plinks{display:flex;gap:8px}
+.plbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;text-decoration:none;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s}
+.plbtn:hover{border-color:var(--teal);color:var(--teal)}
+.plbtn.p{background:var(--teal);color:#06060a;border-color:var(--teal);font-weight:500}
+.plbtn.p:hover{background:#00f0c3}
+
+/* SKILLS */
+.sklayout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.skg{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px}
+.skg-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:18px}
+.skrow{margin-bottom:15px}
+.skrow:last-child{margin-bottom:0}
+.ski{display:flex;justify-content:space-between;margin-bottom:7px}
+.skn{font-size:13px;font-weight:500;color:var(--text)}
+.skp{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.sktrack{height:4px;background:var(--surface);border-radius:2px;overflow:hidden}
+.skfill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+.tools{grid-column:1/-1;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px}
+.toolwrap{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tbadge{font-family:'JetBrains Mono',monospace;font-size:12px;padding:7px 14px;border-radius:8px;border:1px solid var(--border);color:var(--muted);background:var(--surface);transition:all .2s;cursor:default}
+.tbadge:hover{border-color:var(--teal);color:var(--teal);background:var(--teal2);transform:translateY(-2px)}
+
+/* LEETCODE */
+.lclayout{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.lcp{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:26px}
+.lcbig{font-family:'Syne',sans-serif;font-size:54px;font-weight:800;line-height:1;letter-spacing:-2px;margin-bottom:4px}
+.lclbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.drows{display:flex;flex-direction:column;gap:15px;margin-top:26px}
+.drow{display:flex;align-items:center;gap:14px}
+.dlbl{font-family:'JetBrains Mono',monospace;font-size:11px;width:56px;flex-shrink:0}
+.dtrack{flex:1;height:8px;background:var(--surface);border-radius:4px;overflow:hidden}
+.dfill{height:100%;border-radius:4px;width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1)}
+.dct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);width:36px;text-align:right}
+.ratingrow{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;background:var(--surface);border-radius:10px;border:1px solid var(--border);margin-bottom:10px}
+.rplatform{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)}
+.rval{font-family:'Syne',sans-serif;font-size:20px;font-weight:800}
+
+/* EDUCATION */
+.edu-items{display:flex;flex-direction:column;gap:8px}
+.edu-item{display:flex;gap:24px;align-items:flex-start;padding:20px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;transition:all .2s}
+.edu-item:hover{border-color:var(--bh);transform:translateX(4px)}
+.edu-yr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);min-width:88px;padding-top:2px;flex-shrink:0}
+.edu-nm{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px}
+.edu-inst{font-size:13px;color:var(--muted);margin-bottom:4px}
+.edu-sc{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal)}
+
+/* ACHIEVEMENTS */
+.achgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ach{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;display:flex;gap:14px;align-items:flex-start;transition:all .2s}
+.ach:hover{border-color:var(--bh);transform:translateY(-2px)}
+.ach-ico{font-size:24px;flex-shrink:0}
+.ach-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.ach-desc{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* CONTACT */
+.ctgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ctcard{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px 22px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;text-decoration:none;transition:all .25s}
+.ctcard:hover{border-color:rgba(0,212,170,.25);transform:translateY(-3px);background:var(--bg3)}
+.ct-ico{font-size:20px}
+.ct-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.ct-val{font-size:13px;font-weight:500;color:var(--text);word-break:break-all}
+.ct-arr{margin-left:auto;align-self:flex-end;font-size:16px;color:var(--dim);transition:transform .2s,color .2s}
+.ctcard:hover .ct-arr{transform:translate(3px,-3px);color:var(--teal)}
+
+/* FOOTER */
+footer{padding:28px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.ftxt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)}
+.ftxt span{color:var(--teal)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+@media(max-width:800px){
+  .hero{grid-template-columns:1fr}
+  .hcard{display:none}
+  .sbar{grid-template-columns:1fr 1fr}
+  .pgrid,.sklayout,.lclayout,.achgrid,.ctgrid{grid-template-columns:1fr}
+  .pcard.feat{display:block}
+  .stitle{font-size:28px}
+  .hero h1{font-size:42px}
+  .nav-links{display:none}
+  .w{padding:0 18px}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<nav>
+  <div class="nav-in">
+    <a href="#hero" class="nav-logo">GK<em>.</em></a>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#leetcode">leetcode</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="w">
+  <div class="hero" id="hero">
+    <div>
+      <div class="hero-eyebrow">Full-Stack Developer</div>
+      <h1>
+        Gautam<br>
+        <span class="ct">Kumar</span>
+        <span class="dim">Builder · Problem Solver</span>
+      </h1>
+      <p class="hero-bio">
+        B.E. CSE at <strong>Chandigarh University</strong> (2023–2027) · GPA 7.92.<br>
+        I engineer scalable full-stack systems, ship real products, and grind algorithms.
+        Currently diving deep into high-performance backend architecture and distributed systems.
+      </p>
+      <div class="ctas">
+        <a href="#projects" class="btn-t">View Projects ↓</a>
+        <a href="mailto:kumargautam2433@gmail.com" class="btn-o">✉ Email Me</a>
+        <a href="https://github.com/Gautam4064" target="_blank" class="btn-o">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="hcard">
+      <div class="av-ring"><div class="av-in">GK</div></div>
+      <div class="c-name">Gautam Kumar</div>
+      <div class="c-role">SDE Intern · MERN Dev</div>
+      <div class="c-status"><div class="pdot"></div>Open to roles</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="sbar reveal">
+    <div class="sc"><span class="sn t" id="lc-total">110+</span><span class="sl">LC Problems</span></div>
+    <div class="sc"><span class="sn g">1480</span><span class="sl">LC Rating</span></div>
+    <div class="sc"><span class="sn">7.92</span><span class="sl">GPA</span></div>
+    <div class="sc"><span class="sn t">Top 5%</span><span class="sl">NPTEL Score</span></div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="about">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">01 — experience</div>
+      <h2 class="stitle">Where I've <span>worked</span></h2>
+    </div>
+    <div class="exp reveal d1">
+      <div class="exp-ico">🏭</div>
+      <div>
+        <div class="exp-title">SDE Summer Intern</div>
+        <div class="exp-meta">
+          <span>Hindalco Industries Pvt. Ltd — Aditya Birla Group</span>
+          <span>Summer 2024</span>
+        </div>
+        <ul class="exp-pts">
+          <li>Designed and developed user-friendly web applications and corporate websites ensuring high functionality.</li>
+          <li>Collaborated with cross-functional teams to convert business requirements into functional web solutions.</li>
+          <li>Participated in code reviews to uphold high coding standards and applied scalable solutions.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">02 — projects</div>
+      <h2 class="stitle">Things I've <span>engineered</span></h2>
+    </div>
+    <div class="pgrid">
+
+      <!-- URL Shortener FEATURED -->
+      <div class="pcard feat reveal" id="pu">
+        <div class="pstripe"></div>
+        <div>
+          <span class="pemoji">🔗</span>
+          <div class="ptitle">Scalable URL Shortener</div>
+          <div class="tags">
+            <span class="tag">MERN Stack</span>
+            <span class="tag t">Caching</span>
+            <span class="tag t">Rate Limiting</span>
+            <span class="tag t">Indexing</span>
+          </div>
+          <p class="psub">Engineered for <strong style="color:var(--text)">high read-heavy traffic</strong>. Hash-based short URL generation, 18+ REST APIs, a caching layer, rate limiting middleware, and optimised MongoDB queries — all packaged as stateless, horizontally scalable services.</p>
+          <div class="plinks">
+            <a href="https://github.com/Gautam4064/URL-Shortener-Platform" target="_blank" class="plbtn p">⌥ View on GitHub</a>
+            <span class="plbtn">MERN · Open Source</span>
+          </div>
+        </div>
+        <div>
+          <div class="metrics">
+            <span class="mpill t">⚡ O(1) lookup</span>
+            <span class="mpill t">↓ 40% DB reads</span>
+            <span class="mpill t">↓ 35% latency</span>
+            <span class="mpill t">18+ REST APIs</span>
+          </div>
+          <ul class="pfeat">
+            <li>Hash-based short URL generation with O(1) average lookup time</li>
+            <li>18+ RESTful APIs — creation, redirection, analytics, user management</li>
+            <li>Caching strategy reducing database reads by 40%</li>
+            <li>Rate limiting middleware preventing API abuse and ensuring reliability</li>
+            <li>MongoDB query optimisation with indexing — 35% latency reduction</li>
+            <li>Stateless backend architecture enabling horizontal scaling</li>
+          </ul>
+          <div class="tags">
+            <span class="tag t">MongoDB</span>
+            <span class="tag t">Express.js</span>
+            <span class="tag t">React.js</span>
+            <span class="tag t">Node.js</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- E-Commerce RBAC -->
+      <div class="pcard gold-card reveal d1" id="pe">
+        <div class="pstripe g"></div>
+        <span class="pemoji">🛒</span>
+        <div class="ptitle">E-Commerce Platform</div>
+        <div class="tags">
+          <span class="tag">MERN Stack</span>
+          <span class="tag g">RBAC</span>
+          <span class="tag g">MVC</span>
+        </div>
+        <p class="psub">Full-stack e-commerce with Role-Based Access Control. Admin &amp; User roles, 20+ REST APIs, paginated product listings, and clean MVC architecture designed for scale.</p>
+        <div class="metrics">
+          <span class="mpill g">20+ APIs</span>
+          <span class="mpill g">↓ 30% payload</span>
+          <span class="mpill g">500+ products</span>
+        </div>
+        <ul class="pfeat g">
+          <li>20+ REST APIs with role-based authorisation (Admin / User)</li>
+          <li>MongoDB schemas managing 500+ simulated product records</li>
+          <li>Pagination &amp; filtering reducing response payload by 30%</li>
+          <li>MVC architecture for scalability and maintainability</li>
+        </ul>
+        <div class="tags">
+          <span class="tag g">MongoDB</span>
+          <span class="tag g">Express.js</span>
+          <span class="tag g">React.js</span>
+          <span class="tag g">Node.js</span>
+        </div>
+        <div class="plinks">
+          <a href="https://github.com/Gautam4064" target="_blank" class="plbtn">⌥ GitHub ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">03 — skills</div>
+      <h2 class="stitle">Tech I <span>work with</span></h2>
+    </div>
+    <div class="sklayout">
+      <div class="skg reveal d1">
+        <div class="skg-title">⌨ Languages</div>
+        <div class="skrow"><div class="ski"><span class="skn">JavaScript</span><span class="skp">88%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="88"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">C++</span><span class="skp">82%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="82"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">Java</span><span class="skp">78%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="78"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">Python</span><span class="skp">72%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="72"></div></div></div>
+      </div>
+      <div class="skg reveal d2">
+        <div class="skg-title">🖥 Frontend</div>
+        <div class="skrow"><div class="ski"><span class="skn">React.js</span><span class="skp">82%</span></div><div class="sktrack"><div class="skfill" style="background:var(--gold)" data-w="82"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">HTML5 / CSS3</span><span class="skp">90%</span></div><div class="sktrack"><div class="skfill" style="background:var(--gold)" data-w="90"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">Bootstrap 5</span><span class="skp">80%</span></div><div class="sktrack"><div class="skfill" style="background:var(--gold)" data-w="80"></div></div></div>
+      </div>
+      <div class="skg reveal d3">
+        <div class="skg-title">⚙ Backend</div>
+        <div class="skrow"><div class="ski"><span class="skn">Node.js</span><span class="skp">84%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="84"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">Express.js</span><span class="skp">86%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="86"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">RESTful APIs</span><span class="skp">88%</span></div><div class="sktrack"><div class="skfill" style="background:var(--teal)" data-w="88"></div></div></div>
+      </div>
+      <div class="skg reveal d4">
+        <div class="skg-title">🗄 Databases</div>
+        <div class="skrow"><div class="ski"><span class="skn">MongoDB</span><span class="skp">85%</span></div><div class="sktrack"><div class="skfill" style="background:var(--gold)" data-w="85"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">Mongoose ODM</span><span class="skp">82%</span></div><div class="sktrack"><div class="skfill" style="background:var(--gold)" data-w="82"></div></div></div>
+        <div class="skrow"><div class="ski"><span class="skn">Query Optimisation</span><span class="skp">78%</span></div><div class="sktrack"><div class="skfill" style="background:var(--gold)" data-w="78"></div></div></div>
+      </div>
+      <div class="tools reveal">
+        <div class="skg-title" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px">🛠 Tools &amp; Concepts</div>
+        <div class="toolwrap">
+          <span class="tbadge">Git</span><span class="tbadge">GitHub</span><span class="tbadge">DSA</span>
+          <span class="tbadge">OOP</span><span class="tbadge">DBMS</span><span class="tbadge">MVC</span>
+          <span class="tbadge">Rate Limiting</span><span class="tbadge">Caching</span><span class="tbadge">Indexing</span>
+          <span class="tbadge">Pagination</span><span class="tbadge">RBAC</span><span class="tbadge">Horizontal Scaling</span>
+          <span class="tbadge">Software Engineering</span><span class="tbadge">Cloud Computing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LEETCODE -->
+<section id="leetcode">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">04 — competitive programming</div>
+      <h2 class="stitle">Algorithm <span>grind</span></h2>
+    </div>
+    <div class="lclayout">
+      <div class="lcp reveal">
+        <div class="lcbig t" id="lc-num" style="color:var(--teal)">—</div>
+        <div class="lclbl">Problems Solved</div>
+        <div class="drows">
+          <div class="drow">
+            <div class="dlbl" style="color:var(--easy)">Easy</div>
+            <div class="dtrack"><div class="dfill" style="background:var(--easy)" id="ebar"></div></div>
+            <div class="dct" id="ect">—</div>
+          </div>
+          <div class="drow">
+            <div class="dlbl" style="color:var(--med)">Medium</div>
+            <div class="dtrack"><div class="dfill" style="background:var(--med)" id="mbar"></div></div>
+            <div class="dct" id="mct">—</div>
+          </div>
+          <div class="drow">
+            <div class="dlbl" style="color:var(--hard)">Hard</div>
+            <div class="dtrack"><div class="dfill" style="background:var(--hard)" id="hbar"></div></div>
+            <div class="dct" id="hct">—</div>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:12px 16px;background:var(--teal2);border-radius:10px;border:1px solid rgba(0,212,170,.18)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--teal)">100+ active days on LeetCode</span>
+        </div>
+      </div>
+      <div class="lcp reveal d1">
+        <div class="skg-title" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:20px">Platform Ratings</div>
+        <div class="ratingrow">
+          <span class="rplatform">🟡 LeetCode</span>
+          <span class="rval" style="color:var(--teal)">1480</span>
+        </div>
+        <div class="ratingrow">
+          <span class="rplatform">🔵 CodeChef</span>
+          <span class="rval" style="color:var(--gold)">1366 ★</span>
+        </div>
+        <div class="ratingrow">
+          <span class="rplatform">🔴 Codeforces</span>
+          <span class="rval" style="color:var(--red)">764</span>
+        </div>
+        <div style="margin-top:18px">
+          <a href="https://leetcode.com/u/Gautam_786/" target="_blank" class="plbtn" style="width:100%;justify-content:center">View LeetCode Profile ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">05 — achievements</div>
+      <h2 class="stitle">What I've <span>earned</span></h2>
+    </div>
+    <div class="achgrid">
+      <div class="ach reveal d1"><div class="ach-ico">💡</div><div><div class="ach-title">110+ LeetCode Problems</div><div class="ach-desc">Solved 110+ problems over 100+ active days with a contest rating of 1480.</div></div></div>
+      <div class="ach reveal d2"><div class="ach-ico">☁️</div><div><div class="ach-title">NPTEL Top 5% — Cloud Computing</div><div class="ach-desc">Completed IIT Kharagpur's Cloud Computing course, scoring in the top 5% nationwide.</div></div></div>
+      <div class="ach reveal d3"><div class="ach-ico">🏆</div><div><div class="ach-title">FFE-AWOO Scholar</div><div class="ach-desc">Recognised for outstanding academic excellence with the FFE-AWOO scholarship.</div></div></div>
+      <div class="ach reveal d4"><div class="ach-ico">🎯</div><div><div class="ach-title">Aditya Birla Group Intern</div><div class="ach-desc">Selected as SDE Intern at Hindalco Industries, one of India's largest conglomerates.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">06 — education</div>
+      <h2 class="stitle">Academic <span>journey</span></h2>
+    </div>
+    <div class="edu-items">
+      <div class="edu-item reveal d1">
+        <div class="edu-yr">2023 – 2027</div>
+        <div><div class="edu-nm">B.E. in Computer Science &amp; Engineering</div><div class="edu-inst">Chandigarh University, Punjab</div><div class="edu-sc">GPA: 7.92 / 10</div></div>
+      </div>
+      <div class="edu-item reveal d2">
+        <div class="edu-yr">2020 – 2021</div>
+        <div><div class="edu-nm">Intermediate — PCM</div><div class="edu-inst">Bhavan's Kesari Devi Kanoria Vidya Mandir</div><div class="edu-sc">91.8%</div></div>
+      </div>
+      <div class="edu-item reveal d3">
+        <div class="edu-yr">2018 – 2019</div>
+        <div><div class="edu-nm">Matriculation — CBSE</div><div class="edu-inst">Bhavan's Kesari Devi Kanoria Vidya Mandir</div><div class="edu-sc">94.4%</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="w">
+    <div class="sh reveal">
+      <div class="slbl">07 — contact</div>
+      <h2 class="stitle">Let's <span>connect</span></h2>
+    </div>
+    <div class="ctgrid reveal">
+      <a href="mailto:kumargautam2433@gmail.com" class="ctcard"><div class="ct-ico">✉️</div><div class="ct-lbl">Email</div><div class="ct-val">kumargautam2433@gmail.com</div><div class="ct-arr">↗</div></a>
+      <a href="https://github.com/Gautam4064" target="_blank" class="ctcard"><div class="ct-ico">⌥</div><div class="ct-lbl">GitHub</div><div class="ct-val">github.com/Gautam4064</div><div class="ct-arr">↗</div></a>
+      <a href="https://linkedin.com/in/gautam-kumar" target="_blank" class="ctcard"><div class="ct-ico">💼</div><div class="ct-lbl">LinkedIn</div><div class="ct-val">linkedin.com/in/gautam-kumar</div><div class="ct-arr">↗</div></a>
+      <a href="tel:9026160280" class="ctcard"><div class="ct-ico">📱</div><div class="ct-lbl">Phone</div><div class="ct-val">+91 9026160280</div><div class="ct-arr">↗</div></a>
+      <a href="https://leetcode.com/u/Gautam_786/" target="_blank" class="ctcard"><div class="ct-ico">🎯</div><div class="ct-lbl">LeetCode</div><div class="ct-val">Gautam_786</div><div class="ct-arr">↗</div></a>
+      <div class="ctcard" style="background:var(--teal2);border-color:rgba(0,212,170,.18);cursor:default"><div class="ct-ico">📍</div><div class="ct-lbl">Location</div><div class="ct-val">Mohali, Punjab, India</div><div class="ct-arr" style="color:var(--teal)">✓</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="w">
+  <footer>
+    <div class="ftxt">Built by <span>Gautam Kumar</span> · 2025</div>
+    <div class="ftxt"><span>GK</span> · Mohali, Punjab · Open to opportunities</div>
+  </footer>
+</div>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function lp(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lp)})();
+document.querySelectorAll('a,button,.tbadge,.pcard,.ctcard,.ach,.edu-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='52px';ring.style.height='52px'});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px'});
+});
+
+// PROJECT CARD GLOW
+document.querySelectorAll('.pcard').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    c.style.setProperty('--px',((e.clientX-r.left)/r.width*100)+'%');
+    c.style.setProperty('--py',((e.clientY-r.top)/r.height*100)+'%');
+  });
+});
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// SKILL BARS
+const skobs=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){
+    e.target.querySelectorAll('.skfill').forEach(b=>setTimeout(()=>{b.style.width=b.dataset.w+'%'},80));
+    skobs.unobserve(e.target);
+  }
+}),{threshold:.2});
+document.querySelectorAll('.skg,.sklayout').forEach(g=>skobs.observe(g));
+
+// LEETCODE API
+function fallback(){
+  document.getElementById('lc-num').textContent='110+';
+  document.getElementById('lc-total').textContent='110+';
+  document.getElementById('ect').textContent='56+';
+  document.getElementById('mct').textContent='42+';
+  document.getElementById('hct').textContent='12+';
+  setTimeout(()=>{
+    document.getElementById('ebar').style.width='58%';
+    document.getElementById('mbar').style.width='43%';
+    document.getElementById('hbar').style.width='12%';
+  },500);
+}
+
+fetch('https://leetcode-stats-api.herokuapp.com/Gautam_786')
+  .then(r=>r.json())
+  .then(d=>{
+    if(d.status!=='success')return fallback();
+    const t=d.totalSolved||0,e=d.easySolved||0,m=d.mediumSolved||0,h=d.hardSolved||0;
+    document.getElementById('lc-num').textContent=t;
+    document.getElementById('lc-total').textContent=t;
+    document.getElementById('ect').textContent=e;
+    document.getElementById('mct').textContent=m;
+    document.getElementById('hct').textContent=h;
+    const mx2=Math.max(e,m,h)||1;
+    setTimeout(()=>{
+      document.getElementById('ebar').style.width=(e/mx2*100)+'%';
+      document.getElementById('mbar').style.width=(m/mx2*100)+'%';
+      document.getElementById('hbar').style.width=(h/mx2*100)+'%';
+    },500);
+  })
+  .catch(fallback);
+
+// ACTIVE NAV
+const sects=document.querySelectorAll('section[id]');
+const nls=document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll',()=>{
+  let cur2='';
+  sects.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur2=s.id});
+  nls.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur2));
+},{passive:true});
+</script>
+</body>
+</html>
